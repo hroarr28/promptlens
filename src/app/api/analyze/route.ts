@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { rateLimit } from '@/lib/rate-limit'
 import type { ExtractedStyles } from '@/lib/export-formats'
 
 const MOCK_STYLES: ExtractedStyles = {
@@ -63,10 +64,6 @@ function getAnthropicApiKey(): string | null {
   return key
 }
 
-function isPlaceholderApiKey(): boolean {
-  return !getAnthropicApiKey()
-}
-
 export async function POST(request: Request) {
   try {
     const supabase = await createClient()
@@ -76,11 +73,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
+    // Rate limit: 10 analyses per minute per user (expensive Claude API calls)
+    const { allowed } = rateLimit(`analyze:${user.id}`, 10, 60_000)
+    if (!allowed) {
+      return NextResponse.json({ error: 'Too many requests. Please wait a moment.' }, { status: 429 })
+    }
+
     const body = await request.json() as { images: string[]; name: string }
     const { images, name } = body
 
     if (!images?.length || !name?.trim()) {
       return NextResponse.json({ error: 'Images and name are required' }, { status: 400 })
+    }
+
+    // Validate image count
+    if (images.length > 3) {
+      return NextResponse.json({ error: 'Maximum 3 images allowed' }, { status: 400 })
     }
 
     // Check usage limits
@@ -101,7 +109,9 @@ export async function POST(request: Request) {
     let styles: ExtractedStyles
     let prompt: string
 
-    if (isPlaceholderApiKey()) {
+    const resolvedKey = getAnthropicApiKey()
+
+    if (!resolvedKey) {
       // Mock data fallback
       styles = MOCK_STYLES
       prompt = MOCK_PROMPT
@@ -141,7 +151,9 @@ export async function POST(request: Request) {
                 ...imageContents,
                 {
                   type: 'text',
-                  text: `Analyse this design screenshot and extract the following in JSON format:
+                  text: `Analyse this design screenshot. Return your response in EXACTLY this format — a JSON code block followed by a prompt section:
+
+\`\`\`json
 {
   "colours": [{ "hex": "#...", "name": "...", "usage": "..." }],
   "typography": [{ "font": "...", "size": "...", "weight": "...", "usage": "..." }],
@@ -150,8 +162,10 @@ export async function POST(request: Request) {
   "shadows": [{ "value": "...", "usage": "..." }],
   "layout": "description of layout approach"
 }
+\`\`\`
 
-Then generate a detailed natural language prompt that could recreate this design. Use British English.`,
+---PROMPT---
+[Write a detailed natural language prompt that an AI design tool could use to recreate this design. Include specific CSS values, colours, fonts, spacing. Use British English.]`,
                 },
               ],
             }],
@@ -162,16 +176,27 @@ Then generate a detailed natural language prompt that could recreate this design
         const result = await response.json() as { content: Array<{ text: string }> }
         const text = result.content[0].text
 
-        // Try to parse JSON from response
-        const jsonMatch = text.match(/\{[\s\S]*\}/)
-        if (jsonMatch) {
-          styles = JSON.parse(jsonMatch[0]) as ExtractedStyles
-          // Extract prompt (text after JSON)
-          prompt = text.replace(jsonMatch[0], '').trim() || MOCK_PROMPT
+        // Parse JSON from code block
+        const jsonBlockMatch = text.match(/```json\s*([\s\S]*?)```/)
+        const promptSectionMatch = text.match(/---PROMPT---\s*([\s\S]*)/)
+
+        if (jsonBlockMatch) {
+          try {
+            styles = JSON.parse(jsonBlockMatch[1].trim()) as ExtractedStyles
+          } catch {
+            // Fallback: try to find any JSON object
+            const fallbackMatch = text.match(/\{[\s\S]*\}/)
+            styles = fallbackMatch ? JSON.parse(fallbackMatch[0]) as ExtractedStyles : MOCK_STYLES
+          }
         } else {
-          styles = MOCK_STYLES
-          prompt = text || MOCK_PROMPT
+          // No code block — try raw JSON
+          const fallbackMatch = text.match(/\{[\s\S]*\}/)
+          styles = fallbackMatch ? JSON.parse(fallbackMatch[0]) as ExtractedStyles : MOCK_STYLES
         }
+
+        prompt = promptSectionMatch
+          ? promptSectionMatch[1].trim()
+          : text.replace(/```json[\s\S]*?```/, '').replace(/---PROMPT---/, '').trim() || text
       } catch (err) {
         console.error('Claude Vision API error:', err)
         // Return error instead of silently falling back to mock

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { rateLimit } from '@/lib/rate-limit'
 
 const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/webp']
 const MAX_SIZE = 10 * 1024 * 1024 // 10MB
@@ -11,6 +12,12 @@ export async function POST(request: Request) {
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+    }
+
+    // Rate limit: 30 uploads per minute per user
+    const { allowed } = rateLimit(`upload:${user.id}`, 30, 60_000)
+    if (!allowed) {
+      return NextResponse.json({ error: 'Too many uploads. Please wait a moment.' }, { status: 429 })
     }
 
     const formData = await request.formData()
