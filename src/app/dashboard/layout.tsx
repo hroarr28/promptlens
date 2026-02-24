@@ -83,7 +83,7 @@ export default function DashboardLayout({
       <aside className="hidden md:flex md:w-64 md:flex-col md:border-r md:bg-white">
         <div className="flex h-16 items-center border-b px-6">
           <Link href="/dashboard" className="text-xl font-bold text-blue-600">
-            ShowDontTell
+            PromptLens
           </Link>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
@@ -110,14 +110,14 @@ export default function DashboardLayout({
               <SheetContent side="left" className="w-64 p-4">
                 <div className="mb-6">
                   <Link href="/dashboard" className="text-xl font-bold text-blue-600">
-                    ShowDontTell
+                    PromptLens
                   </Link>
                 </div>
                 <NavLinks onClick={() => setMobileOpen(false)} />
               </SheetContent>
             </Sheet>
             <Link href="/dashboard" className="text-xl font-bold text-blue-600 md:hidden">
-              ShowDontTell
+              PromptLens
             </Link>
           </div>
 

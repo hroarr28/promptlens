@@ -32,7 +32,7 @@ export async function POST() {
         price_data: {
           currency: 'gbp',
           product_data: {
-            name: 'ShowDontTell Pro',
+            name: 'PromptLens Pro',
             description: 'Unlimited AI design prompts per month',
           },
           unit_amount: 700, // £7.00

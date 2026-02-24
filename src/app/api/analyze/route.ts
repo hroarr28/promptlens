@@ -52,9 +52,9 @@ const MOCK_PROMPT = `Build a modern web interface with a clean, professional des
 **Interactions:** Hover states on all interactive elements. Focus-visible rings for keyboard navigation. Smooth transitions (150ms ease). Loading skeletons for async content.`
 
 function getAnthropicApiKey(): string | null {
-  // Use SHOWDONTTELL_ANTHROPIC_KEY first (app-specific, avoids system env conflicts)
+  // Use PROMPTLENS_ANTHROPIC_KEY first (app-specific, avoids system env conflicts)
   // Fall back to ANTHROPIC_API_KEY if it's a real api key (not oat01 OAuth token)
-  const appKey = process.env.SHOWDONTTELL_ANTHROPIC_KEY
+  const appKey = process.env.PROMPTLENS_ANTHROPIC_KEY
   if (appKey && appKey !== 'placeholder' && appKey.length > 10) return appKey
 
   const key = process.env.ANTHROPIC_API_KEY

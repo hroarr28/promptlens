@@ -11,7 +11,7 @@ export default function LandingPage() {
       <header className="border-b bg-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link href="/" className="text-xl font-bold text-blue-600">
-            ShowDontTell
+            PromptLens
           </Link>
           <div className="flex items-center gap-3">
             <Link
@@ -40,7 +40,7 @@ export default function LandingPage() {
             </span>
           </h1>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-slate-300 md:text-xl">
-            ShowDontTell analyses your design screenshots and generates precise, tool-specific prompts
+            PromptLens analyses your design screenshots and generates precise, tool-specific prompts
             for Stitch, Cursor, Anima, and more. Stop describing — start showing.
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -198,7 +198,7 @@ export default function LandingPage() {
                 How accurate is the style extraction?
               </summary>
               <p className="mt-2 text-sm text-slate-600">
-                ShowDontTell uses Claude Vision to analyse your designs. It extracts colours (with hex codes), typography (fonts, sizes, weights), spacing values, borders, shadows, and layout patterns with high accuracy. You can always edit the generated prompt before exporting.
+                PromptLens uses Claude Vision to analyse your designs. It extracts colours (with hex codes), typography (fonts, sizes, weights), spacing values, borders, shadows, and layout patterns with high accuracy. You can always edit the generated prompt before exporting.
               </p>
             </details>
             <details className="rounded-lg border p-4">
@@ -234,7 +234,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-8 md:grid-cols-4">
             <div>
-              <h3 className="mb-4 text-lg font-bold text-white">ShowDontTell</h3>
+              <h3 className="mb-4 text-lg font-bold text-white">PromptLens</h3>
               <p className="text-sm">Upload designs. Get perfect AI prompts.</p>
             </div>
             <div>
@@ -260,7 +260,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="mt-8 border-t border-slate-800 pt-8 text-center text-sm">
-            <p>© {new Date().getFullYear()} ShowDontTell. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} PromptLens. All rights reserved.</p>
           </div>
         </div>
       </footer>

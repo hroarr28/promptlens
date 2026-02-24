@@ -10,14 +10,14 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-xl font-semibold">1. Introduction</h2>
           <p>
-            ShowDontTell Ltd (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your personal data in compliance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018, as overseen by the Information Commissioner&apos;s Office (ICO).
+            PromptLens Ltd (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your personal data in compliance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018, as overseen by the Information Commissioner&apos;s Office (ICO).
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-semibold">2. Data Controller</h2>
           <p>
-            ShowDontTell Ltd is the data controller for the personal data processed through this Service. Contact: hello@showdonttell.co.uk.
+            PromptLens Ltd is the data controller for the personal data processed through this Service. Contact: hello@promptlens.co.uk.
           </p>
         </section>
 
@@ -83,7 +83,7 @@ export default function PrivacyPage() {
             <li><strong>Objection:</strong> Object to processing based on legitimate interest</li>
             <li><strong>Restriction:</strong> Request restricted processing</li>
           </ul>
-          <p className="mt-2">To exercise these rights, contact hello@showdonttell.co.uk. We will respond within 30 days.</p>
+          <p className="mt-2">To exercise these rights, contact hello@promptlens.co.uk. We will respond within 30 days.</p>
         </section>
 
         <section>
@@ -103,7 +103,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-xl font-semibold">11. Complaints</h2>
           <p>
-            If you have concerns about our data practices, please contact us first at hello@showdonttell.co.uk. You also have the right to lodge a complaint with the ICO at <a href="https://ico.org.uk" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">ico.org.uk</a>.
+            If you have concerns about our data practices, please contact us first at hello@promptlens.co.uk. You also have the right to lodge a complaint with the ICO at <a href="https://ico.org.uk" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">ico.org.uk</a>.
           </p>
         </section>
 

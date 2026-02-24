@@ -10,14 +10,14 @@ export default function TermsPage() {
         <section>
           <h2 className="text-xl font-semibold">1. Introduction</h2>
           <p>
-            These Terms of Service (&quot;Terms&quot;) govern your use of ShowDontTell (&quot;the Service&quot;), operated by ShowDontTell Ltd (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By accessing or using the Service, you agree to be bound by these Terms. These Terms are governed by the laws of England and Wales.
+            These Terms of Service (&quot;Terms&quot;) govern your use of PromptLens (&quot;the Service&quot;), operated by PromptLens Ltd (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By accessing or using the Service, you agree to be bound by these Terms. These Terms are governed by the laws of England and Wales.
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-semibold">2. Service Description</h2>
           <p>
-            ShowDontTell is a web-based tool that analyses design screenshots using artificial intelligence to extract visual styles and generate prompts for AI-powered development tools.
+            PromptLens is a web-based tool that analyses design screenshots using artificial intelligence to extract visual styles and generate prompts for AI-powered development tools.
           </p>
         </section>
 
@@ -85,7 +85,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-xl font-semibold">11. Contact</h2>
           <p>
-            For questions about these Terms, contact us at hello@showdonttell.co.uk.
+            For questions about these Terms, contact us at hello@promptlens.co.uk.
           </p>
         </section>
       </div>

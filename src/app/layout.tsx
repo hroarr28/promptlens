@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "ShowDontTell — Upload designs. Get perfect AI prompts.",
+  title: "PromptLens — Upload designs. Get perfect AI prompts.",
   description:
     "Upload design screenshots and get tool-specific AI prompts for Stitch, Cursor, Anima, and more. Stop describing — start showing.",
 }
