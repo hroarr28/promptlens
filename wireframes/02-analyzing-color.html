@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShowDontTell - Analyzing</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      min-height: 100vh;
+    }
+    /* Nav */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+      border-bottom: 1px solid #e2e8f0;
+      background: white;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 20px;
+      color: #3B82F6;
+    }
+    .nav-right {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .quota {
+      font-size: 14px;
+      color: #64748b;
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+      border-radius: 50%;
+    }
+    /* Main content */
+    .main {
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 600px;
+    }
+    /* Spinner */
+    .spinner {
+      width: 80px;
+      height: 80px;
+      border: 6px solid #e2e8f0;
+      border-top-color: #3B82F6;
+      border-radius: 50%;
+      margin-bottom: 32px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .status-text {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+    .status-hint {
+      color: #64748b;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    /* Progress steps */
+    .steps {
+      max-width: 600px;
+      width: 100%;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      background: white;
+      transition: all 0.3s;
+    }
+    .step.complete {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+    .step.complete .step-icon {
+      background: #22c55e;
+      color: white;
+      border-color: #22c55e;
+    }
+    .step.active {
+      background: #eff6ff;
+      border-color: #3B82F6;
+    }
+    .step.active .step-icon {
+      background: #3B82F6;
+      color: white;
+      border-color: #3B82F6;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #e2e8f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+      background: white;
+      color: #64748b;
+      font-size: 16px;
+    }
+    .step-content {
+      flex: 1;
+    }
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #0f172a;
+      font-size: 16px;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: #64748b;
+    }
+    .step.complete .step-title,
+    .step.active .step-title {
+      color: #0f172a;
+    }
+    /* Uploaded images preview */
+    .images-preview {
+      display: flex;
+      gap: 12px;
+      margin-top: 48px;
+      max-width: 600px;
+    }
+    .preview-img {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(135deg, #e0e7ff, #ddd6fe);
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Nav -->
+    <div class="nav">
+      <div class="logo">ShowDontTell</div>
+      <div class="nav-right">
+        <span class="quota">Pro: 47 prompts left</span>
+        <div class="avatar"></div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+      <div class="spinner"></div>
+      <div class="status-text">Analyzing your design...</div>
+      <p class="status-hint">Claude Vision is extracting colours, typography, and layout patterns</p>
+
+      <!-- Progress steps -->
+      <div class="steps">
+        <div class="step complete">
+          <div class="step-icon">✓</div>
+          <div class="step-content">
+            <div class="step-title">Images uploaded</div>
+            <div class="step-desc">3 screenshots received</div>
+          </div>
+        </div>
+
+        <div class="step active">
+          <div class="step-icon">⚡</div>
+          <div class="step-content">
+            <div class="step-title">Analyzing design</div>
+            <div class="step-desc">Extracting colours, typography, spacing, borders...</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">3</div>
+          <div class="step-content">
+            <div class="step-title">Generating prompt</div>
+            <div class="step-desc">Creating optimized prompt for Google Stitch</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image previews -->
+      <div class="images-preview">
+        <div class="preview-img"></div>
+        <div class="preview-img"></div>
+        <div class="preview-img"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

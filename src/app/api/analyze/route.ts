@@ -50,9 +50,21 @@ const MOCK_PROMPT = `Build a modern web interface with a clean, professional des
 
 **Interactions:** Hover states on all interactive elements. Focus-visible rings for keyboard navigation. Smooth transitions (150ms ease). Loading skeletons for async content.`
 
-function isPlaceholderApiKey(): boolean {
+function getAnthropicApiKey(): string | null {
+  // Use SHOWDONTTELL_ANTHROPIC_KEY first (app-specific, avoids system env conflicts)
+  // Fall back to ANTHROPIC_API_KEY if it's a real api key (not oat01 OAuth token)
+  const appKey = process.env.SHOWDONTTELL_ANTHROPIC_KEY
+  if (appKey && appKey !== 'placeholder' && appKey.length > 10) return appKey
+
   const key = process.env.ANTHROPIC_API_KEY
-  return !key || key === 'placeholder' || key.length < 10
+  if (!key || key === 'placeholder' || key.length < 10) return null
+  // oat01 tokens are OpenClaw OAuth tokens — can't be used for direct API calls
+  if (key.includes('-oat01-')) return null
+  return key
+}
+
+function isPlaceholderApiKey(): boolean {
+  return !getAnthropicApiKey()
 }
 
 export async function POST(request: Request) {
@@ -96,16 +108,28 @@ export async function POST(request: Request) {
     } else {
       // Real Claude Vision API call
       try {
-        const imageContents = images.map((url) => ({
-          type: 'image' as const,
-          source: { type: 'url' as const, url },
+        // Fetch images and convert to base64 (more reliable than URL source)
+        const imageContents = await Promise.all(images.map(async (url) => {
+          const imgRes = await fetch(url)
+          if (!imgRes.ok) throw new Error(`Failed to fetch image: ${url}`)
+          const buffer = await imgRes.arrayBuffer()
+          const base64 = Buffer.from(buffer).toString('base64')
+          const contentType = imgRes.headers.get('content-type') || 'image/png'
+          return {
+            type: 'image' as const,
+            source: {
+              type: 'base64' as const,
+              media_type: contentType as 'image/png' | 'image/jpeg' | 'image/webp' | 'image/gif',
+              data: base64,
+            },
+          }
         }))
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'x-api-key': process.env.ANTHROPIC_API_KEY!,
+            'x-api-key': getAnthropicApiKey()!,
             'anthropic-version': '2023-06-01',
           },
           body: JSON.stringify({
@@ -148,10 +172,13 @@ Then generate a detailed natural language prompt that could recreate this design
           styles = MOCK_STYLES
           prompt = text || MOCK_PROMPT
         }
-      } catch {
-        // Fallback to mock
-        styles = MOCK_STYLES
-        prompt = MOCK_PROMPT
+      } catch (err) {
+        console.error('Claude Vision API error:', err)
+        // Return error instead of silently falling back to mock
+        return NextResponse.json({
+          error: 'AI analysis failed. Check API key configuration.',
+          detail: err instanceof Error ? err.message : 'Unknown error',
+        }, { status: 500 })
       }
     }
 

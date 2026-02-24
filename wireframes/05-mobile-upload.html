@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShowDontTell - Mobile Upload Wireframe</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .phone-frame {
+      width: 390px;
+      height: 844px;
+      background: white;
+      border: 3px solid #333;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #333;
+      border-radius: 0 0 16px 16px;
+      z-index: 10;
+    }
+    .screen {
+      height: 100%;
+      overflow-y: auto;
+      background: white;
+    }
+    /* Nav */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 44px 16px 12px;
+      border-bottom: 2px solid #333;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      background: #ddd;
+      border: 2px solid #333;
+      border-radius: 50%;
+    }
+    /* Main */
+    .main {
+      padding: 24px 16px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    /* Upload zone */
+    .upload-zone {
+      min-height: 280px;
+      border: 3px dashed #333;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      background: #fafafa;
+      margin-bottom: 24px;
+    }
+    .upload-icon {
+      width: 64px;
+      height: 64px;
+      background: #e0e0e0;
+      border: 2px solid #333;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+    .upload-text {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .upload-hint {
+      color: #666;
+      font-size: 12px;
+      margin-bottom: 20px;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .btn {
+      padding: 12px 24px;
+      border: 2px solid #333;
+      background: white;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-primary {
+      background: #333;
+      color: white;
+      margin-bottom: 8px;
+    }
+    /* Options */
+    .options-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #666;
+    }
+    .option-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      background: #fafafa;
+      margin-bottom: 8px;
+    }
+    .option-label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .select {
+      padding: 8px 12px;
+      border: 2px solid #333;
+      border-radius: 4px;
+      background: white;
+      font-size: 14px;
+      max-width: 140px;
+    }
+    .toggle {
+      width: 44px;
+      height: 24px;
+      background: #333;
+      border: 2px solid #333;
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+    }
+    .toggle-handle {
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      right: 2px;
+      top: 2px;
+    }
+    /* Bottom action bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: white;
+      border-top: 2px solid #333;
+      display: flex;
+      gap: 8px;
+    }
+    .bottom-btn {
+      flex: 1;
+      padding: 14px;
+      border: 2px solid #333;
+      background: white;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      min-height: 48px;
+    }
+    .bottom-btn-primary {
+      background: #333;
+      color: white;
+      flex: 2;
+    }
+    .quota {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-top: 24px;
+      padding-bottom: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="notch"></div>
+    <div class="screen">
+      <!-- Nav -->
+      <div class="nav">
+        <div class="logo">ShowDontTell</div>
+        <div class="avatar"></div>
+      </div>
+
+      <!-- Main -->
+      <div class="main">
+        <h1 class="title">New Prompt</h1>
+        <p class="subtitle">Upload your design screenshots</p>
+
+        <!-- Upload zone -->
+        <div class="upload-zone">
+          <div class="upload-icon">📸</div>
+          <div class="upload-text">Drop screenshots here</div>
+          <p class="upload-hint">PNG, JPEG, WEBP<br>Up to 3 images • 10MB each</p>
+          <button class="btn btn-primary">Browse Files</button>
+          <button class="btn">Take Photo</button>
+        </div>
+
+        <!-- Options -->
+        <div class="options-title">Analysis Options</div>
+        
+        <div class="option-row">
+          <span class="option-label">Export format</span>
+          <select class="select">
+            <option>Stitch</option>
+            <option>Cursor</option>
+            <option>Anima</option>
+            <option>Generic</option>
+          </select>
+        </div>
+
+        <div class="option-row">
+          <span class="option-label">Extract typography</span>
+          <div class="toggle">
+            <div class="toggle-handle"></div>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <span class="option-label">Extract spacing</span>
+          <div class="toggle">
+            <div class="toggle-handle"></div>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <span class="option-label">Extract effects</span>
+          <div class="toggle">
+            <div class="toggle-handle"></div>
+          </div>
+        </div>
+
+        <div class="quota">Pro plan: Unlimited prompts</div>
+      </div>
+    </div>
+
+    <!-- Bottom action bar -->
+    <div class="bottom-bar">
+      <button class="bottom-btn">Cancel</button>
+      <button class="bottom-btn bottom-btn-primary">Analyze Design</button>
+    </div>
+  </div>
+</body>
+</html>
