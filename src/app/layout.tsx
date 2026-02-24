@@ -14,9 +14,29 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "PromptLens — Upload designs. Get perfect AI prompts.",
+  metadataBase: new URL('https://promptlens.app'),
+  title: {
+    default: "PromptLens — Upload designs. Get perfect AI prompts.",
+    template: "%s — PromptLens",
+  },
   description:
     "Upload design screenshots and get tool-specific AI prompts for Stitch, Cursor, Anima, and more. Stop describing — start showing.",
+  icons: {
+    icon: "/favicon.svg",
+  },
+  openGraph: {
+    title: "PromptLens — Upload designs. Get perfect AI prompts.",
+    description:
+      "Upload design screenshots and get tool-specific AI prompts for Stitch, Cursor, Anima, and more.",
+    type: "website",
+    siteName: "PromptLens",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PromptLens — Upload designs. Get perfect AI prompts.",
+    description:
+      "Upload design screenshots and get tool-specific AI prompts for Stitch, Cursor, Anima, and more.",
+  },
 }
 
 export default function RootLayout({

@@ -44,6 +44,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // Redirect authenticated users away from auth pages
+  // Allow /signup/verify without redirecting authenticated users
+  if (pathname === '/signup/verify') {
+    return supabaseResponse
+  }
+
   if ((pathname === '/login' || pathname === '/signup') && user) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
@@ -54,5 +59,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/signup'],
+  matcher: ['/dashboard/:path*', '/login', '/signup', '/signup/verify'],
 }

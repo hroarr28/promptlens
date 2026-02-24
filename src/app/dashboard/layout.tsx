@@ -23,14 +23,18 @@ import {
   Menu,
   LogOut,
   User,
+  Globe,
+  HelpCircle,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/dashboard/new', label: 'New Prompt', icon: PlusCircle },
   { href: '/dashboard/prompts', label: 'My Prompts', icon: FileText },
+  { href: '/explore', label: 'Explore', icon: Globe },
   { href: '/dashboard/billing', label: 'Billing', icon: CreditCard },
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+  { href: '/support', label: 'Support', icon: HelpCircle },
 ]
 
 function NavLinks({ onClick }: { onClick?: () => void }) {

@@ -35,8 +35,7 @@ export default function SignupPage() {
       if (error) {
         toast({ title: 'Sign up failed', description: error.message, variant: 'destructive' })
       } else {
-        toast({ title: 'Check your email', description: 'We\'ve sent you a confirmation link.' })
-        router.push('/login')
+        router.push(`/signup/verify?email=${encodeURIComponent(email)}`)
       }
     } catch {
       toast({ title: 'Something went wrong', variant: 'destructive' })

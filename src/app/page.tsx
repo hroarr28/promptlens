@@ -15,6 +15,12 @@ export default function LandingPage() {
           </Link>
           <div className="flex items-center gap-3">
             <Link
+              href="/explore"
+              className="inline-flex min-h-[44px] items-center rounded-lg px-4 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            >
+              Explore
+            </Link>
+            <Link
               href="/login"
               className="inline-flex min-h-[44px] items-center rounded-lg px-4 text-sm font-medium text-gray-700 hover:bg-gray-100"
             >
@@ -256,6 +262,8 @@ export default function LandingPage() {
               <ul className="space-y-2 text-sm">
                 <li><Link href="/terms" className="hover:text-white">Terms of Service</Link></li>
                 <li><Link href="/privacy" className="hover:text-white">Privacy Policy</Link></li>
+                <li><Link href="/support" className="hover:text-white">Support</Link></li>
+                <li><a href="mailto:hello@promptlens.app" className="hover:text-white">Contact</a></li>
               </ul>
             </div>
           </div>

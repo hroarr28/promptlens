@@ -50,6 +50,7 @@ export async function PATCH(
     if (body.generated_prompt !== undefined) updates.generated_prompt = body.generated_prompt
     if (body.name !== undefined) updates.name = body.name
     if (body.export_format !== undefined) updates.export_format = body.export_format
+    if (body.is_public !== undefined) updates.is_public = body.is_public
     updates.updated_at = new Date().toISOString()
 
     const { data: prompt, error } = await supabase

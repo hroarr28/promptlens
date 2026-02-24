@@ -193,6 +193,7 @@ export default function NewPromptPage() {
               {isDragActive ? 'Drop your images here' : 'Drag & drop images, or click to browse'}
             </p>
             <p className="text-xs text-muted-foreground">PNG, JPEG, WEBP · Max 3 images, 10MB each</p>
+            <p className="mt-1 text-xs text-blue-600">Try uploading a screenshot of any website or app design</p>
           </div>
 
           {files.length > 0 && (
@@ -238,16 +239,41 @@ export default function NewPromptPage() {
 
       {/* Step 3: Analyse */}
       {!result && (
-        <Button
-          onClick={handleUploadAndAnalyse}
-          disabled={uploading || analysing || files.length === 0 || !name.trim()}
-          className="w-full min-h-[44px]"
-          size="lg"
-        >
-          {uploading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {analysing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {uploading ? 'Uploading...' : analysing ? 'Analysing your design...' : 'Analyse Design'}
-        </Button>
+        <div className="space-y-4">
+          <Button
+            onClick={handleUploadAndAnalyse}
+            disabled={uploading || analysing || files.length === 0 || !name.trim()}
+            className="w-full min-h-[44px]"
+            size="lg"
+          >
+            {(uploading || analysing) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {uploading ? 'Uploading...' : analysing ? 'Analysing...' : 'Analyse Design'}
+          </Button>
+
+          {(uploading || analysing) && (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${uploading || analysing ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'}`}>✓</div>
+                    <span className={uploading || analysing ? 'font-medium' : 'text-muted-foreground'}>Uploading images...</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${analysing ? 'bg-blue-100 text-blue-700 animate-pulse' : 'bg-gray-100 text-gray-400'}`}>2</div>
+                    <span className={analysing ? 'font-medium' : 'text-muted-foreground'}>Analysing your design...</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-sm font-bold text-gray-400">3</div>
+                    <span className="text-muted-foreground">Extracting styles &amp; generating prompt...</span>
+                  </div>
+                  <p className="text-center text-sm text-muted-foreground">
+                    This usually takes 10–15 seconds
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       )}
 
       {/* Step 4: Results */}

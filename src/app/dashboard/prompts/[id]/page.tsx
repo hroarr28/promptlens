@@ -23,6 +23,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { useToast } from '@/hooks/use-toast'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 import { ArrowLeft, Copy, Download, Trash2, CopyPlus, Loader2 } from 'lucide-react'
 import { formatForStitch, formatForCursor, formatForAnima, formatGeneric } from '@/lib/export-formats'
 import type { ExtractedStyles } from '@/lib/export-formats'
@@ -35,6 +37,7 @@ interface PromptData {
   extracted_styles: ExtractedStyles | null
   generated_prompt: string
   export_format: string
+  is_public: boolean
   created_at: string
 }
 
@@ -128,6 +131,24 @@ export default function PromptDetailPage() {
     }
   }
 
+  async function handleTogglePublic(checked: boolean) {
+    try {
+      const res = await fetch(`/api/prompts/${params.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_public: checked }),
+      })
+      if (res.ok) {
+        setPrompt((prev) => prev ? { ...prev, is_public: checked } : prev)
+        toast({ title: checked ? 'Prompt is now public' : 'Prompt is now private' })
+      } else {
+        toast({ title: 'Failed to update visibility', variant: 'destructive' })
+      }
+    } catch {
+      toast({ title: 'Failed to update visibility', variant: 'destructive' })
+    }
+  }
+
   function handleExport(format: string) {
     if (!prompt?.extracted_styles) return
     const styles = prompt.extracted_styles
@@ -215,7 +236,7 @@ export default function PromptDetailPage() {
                   {styles.colours.map((c, i) => (
                     <div key={i} className="flex items-center gap-2 rounded-lg border p-2">
                       <div
-                        className="h-8 w-8 rounded border"
+                        className="h-8 w-8 rounded-full border"
                         style={{ backgroundColor: c.hex }}
                         aria-label={`Colour: ${c.name} (${c.hex})`}
                       />
@@ -233,11 +254,17 @@ export default function PromptDetailPage() {
             {styles.typography?.length > 0 && (
               <div>
                 <h3 className="mb-2 font-medium">Typography</h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="space-y-2">
                   {styles.typography.map((t, i) => (
-                    <Badge key={i} variant="secondary">
-                      {t.font} · {t.size} · {t.weight}
-                    </Badge>
+                    <div key={i} className="flex items-center gap-3 rounded-lg border p-3">
+                      <Badge variant="secondary" className="shrink-0">{t.usage}</Badge>
+                      <span
+                        className="text-sm"
+                        style={{ fontWeight: t.weight === 'Bold' || t.weight === '700' ? 700 : 400 }}
+                      >
+                        {t.font}, {t.size}, {t.weight}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -313,6 +340,19 @@ export default function PromptDetailPage() {
           </Button>
         </CardContent>
       </Card>
+
+      {/* Visibility */}
+      <div className="flex items-center gap-3">
+        <Switch
+          id="public-toggle"
+          checked={prompt.is_public}
+          onCheckedChange={handleTogglePublic}
+          aria-label="Make prompt public"
+        />
+        <Label htmlFor="public-toggle" className="text-sm">
+          {prompt.is_public ? 'Public — visible on Explore' : 'Private — only you can see this'}
+        </Label>
+      </div>
 
       {/* Actions */}
       <div className="flex gap-3">
