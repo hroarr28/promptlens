@@ -97,7 +97,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         {children}
         <Toaster />
-      </body>
+      <script src="https://swiftlabs.dev/tracker.js" data-product="promptlens" defer></script></body>
     </html>
   )
 }
